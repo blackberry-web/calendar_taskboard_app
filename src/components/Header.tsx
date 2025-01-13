@@ -2,7 +2,8 @@ import {createUseStyles} from 'react-jss';
 import {useState, useRef, useEffect} from 'react';
 import {getYear, getMonth, getWeekOfMonth, format} from 'date-fns';
 import {DayPicker} from 'react-day-picker';
-import classNames from "react-day-picker/style.module.css";
+import classNames from "react-day-picker/style.module.css"
+import {displayMonth} from '../helpers/utils';
 
 const useStyles = createUseStyles({
     h1: {
@@ -30,18 +31,31 @@ const useStyles = createUseStyles({
     }
 })
 
-export const Header = () => {
+export const Header = ({ sendDateToDisplay }: any) => {
     const classes = useStyles();
     const today: Date = new Date();
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-    const [selectedMonth, setSelectedMonth] = useState<Date | undefined>(today);
+    const [selectedDate, setSelectedDate] = useState<Date>(today);
+    const [selectedMonth, setSelectedMonth] = useState<Date>(today);
     const [showDayPicker, setShowDayPicker] = useState<boolean>(false);
     const selectedYear: number = getYear(selectedDate!) || getYear(today);
     const selectedWeek: number = getWeekOfMonth(selectedDate!) || getWeekOfMonth(today);
     const dialogRef = useRef<HTMLDialogElement>(null);
 
+    function handleDateSelect(){
+        sendDateToDisplay(displayMonth(selectedDate));
+    }
+
+    const toggleDialogRef = (): void => {
+        if(showDayPicker){
+            dialogRef.current?.show();
+        } else {
+            setShowDayPicker(false)
+            dialogRef.current?.close();
+        }
+    }
+
     useEffect(() => {
-        showDayPicker ? dialogRef.current?.show() : dialogRef.current?.close();
+        toggleDialogRef();
         const closeDialogClickOutside = (event: any) => {
             if(dialogRef.current && !dialogRef.current.contains(event.target)){
                 setShowDayPicker(false);
@@ -57,10 +71,14 @@ export const Header = () => {
             <dialog ref={dialogRef}>
             <DayPicker
                 mode="single"
+                required
                 month={selectedMonth}
                 onMonthChange={setSelectedMonth}
                 selected={selectedDate}
-                onSelect={setSelectedDate}
+                onSelect={(selected) => {
+                    setSelectedDate(selected); 
+                    handleDateSelect()}
+                }
                 captionLayout="dropdown"
                 defaultMonth={today}
                 showOutsideDays
