@@ -3,7 +3,7 @@ import {useState, useRef, useEffect} from 'react';
 import {getYear, getMonth, getWeekOfMonth, format} from 'date-fns';
 import {DayPicker} from 'react-day-picker';
 import classNames from "react-day-picker/style.module.css"
-import {displayMonth} from '../helpers/utils';
+import {displayMonthGrid} from '../helpers/utils';
 
 const useStyles = createUseStyles({
     h1: {
@@ -42,7 +42,7 @@ export const Header = ({ sendDateToDisplay }: any) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     function handleDateSelect(){
-        sendDateToDisplay(displayMonth(selectedDate));
+        sendDateToDisplay(displayMonthGrid(selectedDate));
     }
 
     const toggleDialogRef = (): void => {
