@@ -1,12 +1,13 @@
-import React from 'react';
 import { CalendarGrid } from './components/CalendarGrid';
-// import './App.css';
+import { Provider } from 'jotai';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <Provider>
         <CalendarGrid />
+      </Provider>
       </header>
     </div>
   );
