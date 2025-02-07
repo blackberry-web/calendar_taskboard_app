@@ -4,7 +4,7 @@ Calendar Task Board app with the ability to create and organize tasks.
 ## Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/blackberry-web/calendar_app.git
+git clone https://github.com/blackberry-web/calendar_taskboard_app.git
 ```
 
 2. Install dependencies:
